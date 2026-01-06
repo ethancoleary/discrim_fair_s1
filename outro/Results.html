@@ -1,0 +1,21 @@
+{{ block title }}
+    Thank you
+{{ endblock }}
+
+{{ block content }}
+You chose to invest {{ inv }} tokens and kept the remaining {{ kept }} tokens.
+<br><br>
+The fair die was rolled and landed on the number {{ die }}.
+This means that your investment {{ if player.lottery == 0 }} was lost. {{ endif }}
+{{ if player.lottery == 1 }} will deliver 2.5 times {{ inv  }}. {{ endif }}
+<br><br>
+Therefore, your final token balance is equal to {{ earning }} meaning you will
+receive a bonus payment equal to ${{ bonus }}. You will receive this within one week.
+<br><br>
+Thank you for taking part in this experiment.
+Please click 'next' to be redirected back to Prolific.
+<br><br>
+    {{ next_button }}
+{{ endblock }}
+
+
