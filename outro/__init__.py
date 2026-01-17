@@ -36,7 +36,7 @@ class Results(Page):
             player.lottery = 0
 
         kept = 200 - investment
-        earning = kept + math.ceil(player.lottery * 2.5 * investment)
+        earning = kept + math.ceil(player.lottery * 3.5 * investment)
         player.earning = earning
 
         if earning % 10 == 0:

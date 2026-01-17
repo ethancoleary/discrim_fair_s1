@@ -67,7 +67,7 @@ input.addEventListener('input', function() {
         invested <= 200
     ) {
         let uninvested = 200 - invested;
-        let bonusAmount = uninvested + Math.ceil(2.5 * invested);
+        let bonusAmount = 200 + Math.ceil(2.5 * invested);
         dynamicDiv.textContent =
             "You have a 2/6 chance of receiving a bonus equal to " + bonusAmount + " tokens and a 4/6 chance of receiving a bonus equal to " + uninvested + " tokens.";
     } else {
