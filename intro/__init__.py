@@ -40,11 +40,17 @@ class Player(BasePlayer):
     )
     accepted = models.IntegerField(initial=1)
 
+    # Data quality tracking fields
+    blur_count = models.IntegerField(initial=0)
+    blur_log = models.LongStringField(initial='{}')
+    blur_warned = models.BooleanField(initial=False)
+    browser_info = models.StringField(initial='')
+
 
 # PAGES
 class Intro(Page):
     form_model = 'player'
-    form_fields = ['consent']
+    form_fields = ['consent', 'blur_count', 'blur_log', 'blur_warned', 'browser_info']
 
     @staticmethod
     def error_message(player, values):
@@ -55,7 +61,7 @@ class Intro(Page):
 
 class PDetails(Page):
     form_model = 'player'
-    form_fields = ['gender', 'age']
+    form_fields = ['gender', 'age', 'blur_count', 'blur_log', 'blur_warned', 'browser_info']
 
     @staticmethod
     def before_next_page(player, timeout_happened):
@@ -64,7 +70,7 @@ class PDetails(Page):
 
 class KK(Page):
     form_model = 'player'
-    form_fields = ['KK']
+    form_fields = ['KK', 'blur_count', 'blur_log', 'blur_warned', 'browser_info']
 
     @staticmethod
     def is_displayed(player):

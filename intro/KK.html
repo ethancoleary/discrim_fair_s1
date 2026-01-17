@@ -105,3 +105,9 @@ Which of the following paintings do you prefer?
 
 
 {{ endblock }}
+
+{{ block scripts }}
+    {{ super }}
+    {{ load static }}
+    <script src="{{ static 'data_quality.js' }}"></script>
+{{ endblock }}

@@ -13,4 +13,10 @@ What is your gender identity?<br>
     {{ next_button }}
 {{ endblock }}
 
+{{ block scripts }}
+    {{ super }}
+    {{ load static }}
+    <script src="{{ static 'data_quality.js' }}"></script>
+{{ endblock }}
+
 

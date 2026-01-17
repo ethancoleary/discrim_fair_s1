@@ -37,7 +37,17 @@ Welcome
 {{ formfield_errors 'consent' }}
 <br>
 <br>
+<input type="hidden" id="id_blur_count" name="blur_count" value="0">
+<input type="hidden" id="id_blur_log" name="blur_log" value="{}">
+<input type="hidden" id="id_blur_warned" name="blur_warned" value="0">
+<input type="hidden" id="id_browser" name="browser_info" value="">
 
 {{ next_button }}
 
+{{ endblock }}
+
+{{ block scripts }}
+    {{ super }}
+    {{ load static }}
+    <script src="{{ static 'data_quality.js' }}"></script>
 {{ endblock }}

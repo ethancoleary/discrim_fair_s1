@@ -1,0 +1,10 @@
+{{ block scripts }}
+    {{ super }}
+    {{ load static }}
+    <!-- hidden fields common to all pages -->
+    <input type="hidden" id="id_blur_count" name="blur_count" value="0">
+    <input type="hidden" id="id_blur_log" name="blur_log" value="{}">
+    <input type="hidden" id="id_blur_warned" name="blur_warned" value="0">
+    <input type="hidden" id="id_browser_info" name="browser_info" value="">
+    <script src="{{ static 'data_quality.js' }}"></script>
+{{ endblock }}
