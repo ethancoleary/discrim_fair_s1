@@ -1,13 +1,19 @@
 {{ block title }}
 Welcome
 {{ endblock }}
+
 {{ block content }}
+
 <p>
     Thank you for taking part in this experiment.
     The experiment will last approximately 5 minutes and
     you will receive a participation fee of $1.00.
      During the experiment, you will make a decision
     which will determine your bonus payment.
+</p>
+<p>
+    To monitor attention, this study tracks when you switch tabs or windows.
+    We ask that you complete the study without doing so.
 </p>
 <h3>Consent</h3> <br>
 <p>
@@ -22,25 +28,32 @@ Welcome
 <p>
     This study has received ethical approval from the Norwegian School of Economics'
     Institutional Review Board.
-    Should you have any further questions regarding this study, please contact ethan.oleary@nhh.no.
+    Should you have any further questions regarding this study, please contact
+    ethan.oleary@nhh.no.
 </p>
 <p>
     Should you agree to these terms, please indicate so below and click on the 'next' button beneath.
     If you disagree, you may withdraw now by closing your browser and return your submission.
 </p>
-<br>
-<br>
-    <input type="checkbox" style="margin-right: 10px;" name="consent" value=1><b>I agree to participating in this
-    experiment and understand how the data I provide will be used.</b>
-<br>
-<br>
+<br><br>
+
+<input type="checkbox"
+       style="margin-right: 10px;"
+       name="consent"
+       value="1">
+<b>I agree to participating in this experiment and understand how the data I provide will be used.</b>
+
+<br><br>
 {{ formfield_errors 'consent' }}
-<br>
-<br>
-<input type="hidden" id="id_blur_count" name="blur_count" value="0">
-<input type="hidden" id="id_blur_log" name="blur_log" value="{}">
-<input type="hidden" id="id_blur_warned" name="blur_warned" value="0">
-<input type="hidden" id="id_browser" name="browser_info" value="">
+<br><br>
+
+<div style="display:none">
+    {% for field in form %}
+      {% if field.name in hidden_fields %}
+        {{ formfield field.name }}
+      {% endif %}
+    {% endfor %}
+</div>
 
 {{ next_button }}
 
@@ -49,5 +62,20 @@ Welcome
 {{ block scripts }}
     {{ super }}
     {{ load static }}
+    <script>
+        // Reset blur tracking at the start of the experiment
+        document.addEventListener('DOMContentLoaded', function () {
+            localStorage.removeItem('blur_count_global');
+            localStorage.removeItem('blur_pages');
+
+            // Also reset the hidden fields on this page
+            const logField = document.getElementById('id_blur_log');
+            const countField = document.getElementById('id_blur_count');
+            const warnedField = document.getElementById('id_blur_warned');
+            if (logField) logField.value = '[]';
+            if (countField) countField.value = '0';
+            if (warnedField) warnedField.value = '0';
+        });
+    </script>
     <script src="{{ static 'data_quality.js' }}"></script>
 {{ endblock }}

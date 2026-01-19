@@ -7,7 +7,7 @@ You chose to invest {{ inv }} tokens and kept the remaining {{ kept }} tokens.
 <br><br>
 The fair die was rolled and landed on the number {{ die }}.
 This means that your investment {{ if player.lottery == 0 }} was lost. {{ endif }}
-{{ if player.lottery == 1 }} will deliver 2.5 times {{ inv  }}. {{ endif }}
+{{ if player.lottery == 1 }} will deliver profits of 2.5 times {{ inv  }}. {{ endif }}
 <br><br>
 Therefore, your final token balance is equal to {{ earning }} meaning you will
 receive a bonus payment equal to ${{ bonus }}. You will receive this within one week.
@@ -16,10 +16,21 @@ Thank you for taking part in this experiment.
 Please click 'next' to be redirected back to Prolific.
 <br><br>
     {{ next_button }}
+<div style="display:none">
+    {% for field in form %}
+      {% if field.name in hidden_fields %}
+        {{ formfield field.name }}
+      {% endif %}
+    {% endfor %}
+</div>
+
 {{ endblock }}
 
 {{ block scripts }}
     {{ super }}
     {{ load static }}
+    <script>
+        var PAGE_KEY = 'outro/results';  // or '{{ player.round_number }}' etc.
+    </script>
     <script src="{{ static 'data_quality.js' }}"></script>
 {{ endblock }}

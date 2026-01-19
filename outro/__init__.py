@@ -30,12 +30,11 @@ class Player(BasePlayer):
     blur_count = models.IntegerField(initial=0)
     blur_log = models.LongStringField(initial='{}')
     blur_warned = models.BooleanField(initial=False)
-    browser_info = models.StringField(initial='')
 
 
 class Results(Page):
     form_model = 'player'
-    form_fields = ['blur_count', 'blur_log', 'blur_warned', 'browser_info']
+    form_fields = ['blur_count', 'blur_log', 'blur_warned']
 
     @staticmethod
     def vars_for_template(player):
@@ -58,8 +57,8 @@ class Results(Page):
             'die': die,
             'earning': earning,
             'bonus': bonus,
+            'hidden_fields': ['blur_log', 'blur_count', 'blur_warned'],
         }
-
 
 class Redirect(Page):
     @staticmethod

@@ -1,5 +1,5 @@
 from otree.api import *
-
+from common import *
 
 doc = """
 Stage 1 Pilot
@@ -41,36 +41,46 @@ class Player(BasePlayer):
     accepted = models.IntegerField(initial=1)
 
     # Data quality tracking fields
-    blur_count = models.IntegerField(initial=0)
-    blur_log = models.LongStringField(initial='{}')
-    blur_warned = models.BooleanField(initial=False)
-    browser_info = models.StringField(initial='')
+    blur_log = models.LongStringField(blank=True)
+    blur_count = models.IntegerField(initial=0, blank=True)
+    blur_warned = models.IntegerField(initial=0, blank=True)
 
 
 # PAGES
 class Intro(Page):
     form_model = 'player'
-    form_fields = ['consent', 'blur_count', 'blur_log', 'blur_warned', 'browser_info']
+    form_fields = ['consent', 'blur_count', 'blur_log', 'blur_warned']
 
     @staticmethod
     def error_message(player, values):
-        solutions = dict(consent=1)
-        if values != solutions:
+        if values.get('consent') != 1:
             return "Please consent to participation or withdraw from the experiment by closing your browser."
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        return {
+            'hidden_fields': ['blur_log', 'blur_count', 'blur_warned'],
+        }
 
 class PDetails(Page):
     form_model = 'player'
-    form_fields = ['gender', 'age', 'blur_count', 'blur_log', 'blur_warned', 'browser_info']
+    form_fields = ['gender', 'age', 'blur_count', 'blur_log', 'blur_warned']
 
     @staticmethod
     def before_next_page(player, timeout_happened):
         if player.gender > 2:
             player.accepted = 0
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        return {
+            'hidden_fields': ['blur_log', 'blur_count', 'blur_warned'],
+        }
+
+
 class KK(Page):
     form_model = 'player'
-    form_fields = ['KK', 'blur_count', 'blur_log', 'blur_warned', 'browser_info']
+    form_fields = ['KK', 'blur_count', 'blur_log', 'blur_warned']
 
     @staticmethod
     def is_displayed(player):
@@ -84,6 +94,13 @@ class KK(Page):
         elif player.gender == 2:
             if player.KK == 1:
                 player.accepted = 0
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return {
+            'hidden_fields': ['blur_log', 'blur_count', 'blur_warned'],
+        }
+
 
 class Screen(Page):
 

@@ -1,11 +1,6 @@
 from otree.api import *
 import random
-import math
-
-
-doc = """
-Your app description
-"""
+from common import MyBasePage
 
 
 class C(BaseConstants):
@@ -23,13 +18,27 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    investment = models.IntegerField(min=0,max=200)
+    investment = models.IntegerField(min=0, max=200)
     slider_value = models.IntegerField(min=0, max=200, blank=True)
 
-# PAGES
-class TaskIntro(Page):
-    form_model = 'player'
-    form_fields = ['slider_value']
+    blur_log = models.LongStringField(blank=True)
+    blur_count = models.IntegerField(initial=0, blank=True)
+    blur_warned = models.IntegerField(initial=0, blank=True)
+
+
+class TaskIntro(MyBasePage):
+    # add extra fields on top of base tracking fields
+    @property
+    def form_fields(self):
+        return MyBasePage.form_fields + ['slider_value']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        ctx = MyBasePage.vars_for_template(player)
+        # add any page-specific vars here, then return
+        # ctx.update({...})
+        return ctx
+
 
 class Task(Page):
     form_model = 'player'
@@ -42,7 +51,4 @@ class Task(Page):
         participant.die = random.randint(1, 6)
 
 
-page_sequence = [
-                TaskIntro,
-                Task
-                ]
+page_sequence = [TaskIntro, Task]
