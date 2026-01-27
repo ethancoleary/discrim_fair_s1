@@ -40,9 +40,10 @@ class TaskIntro(MyBasePage):
         return ctx
 
 
-class Task(Page):
-    form_model = 'player'
-    form_fields = ['investment']
+class Task(MyBasePage):
+    @property
+    def form_fields(self):
+        return MyBasePage.form_fields + ['investment']
 
     @staticmethod
     def before_next_page(player, timeout_happened):
